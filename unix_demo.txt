@@ -1,0 +1,50 @@
+Swapping Technique Example:
+
+Let us assume that the user process is of size 
+2048KB and on a standard hard disk where swapping 
+will take place has a data transfer rate around 
+1 MB per second. The actual transfer of the 1000K 
+process to or from memory will take
+
+2048KB / 1024KB per second
+= 2 seconds
+= 2000 milliseconds
+Now considering in and out time, it will take 
+complete 4000 milliseconds plus other overhead 
+where the process competes to regain main memory.
+
+demo:
+
+start 1 terminal type:
+top
+
+start 2 terminal type:
+nano leak.c
+
+cat leak.c
+
+
+   type:
+#include<stdio.h>
+#include<stdlib.h>
+int main(int argc, char ** argv)
+{
+        while(1){
+                malloc(512 * 1024);
+                printf("leaked !! \n");
+        }
+        return 0;
+}
+
+ctrl+z
+ls
+dd if=/dev/zero  (device file containing all zeros)
+ of=swapfile(output file as swap file) bs=1M count=8192
+mkswap swapfile
+swapon swapfile
+gcc leak.c -o leak
+./leak
+---
+---
+---
+ctrl+z
